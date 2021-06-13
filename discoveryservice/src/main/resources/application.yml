@@ -1,0 +1,12 @@
+server:
+  port: 8761
+
+spirng:
+  application:
+    name: discoveryservice
+
+#client false 를 하지 않으면 자동으로 client로 등록되게 된다
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
