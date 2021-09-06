@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -15,8 +16,17 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService{
 
-    @Autowired
     UserRepository userRepository;
+    BCryptPasswordEncoder passwordEncoder;
+
+    //인자들도 Bean 등록이 되어야 메모리에 적재를 할 수 있음
+    //userRepository는 Bean 등록이 되어있는데, BCryptPasswordEncoder은 등록이 되어있지 않음
+    //가장 먼저 등록이 진행되는 곳에 BCryptPasswordEncoder Bean 등록
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder){
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -27,8 +37,9 @@ public class UserServiceImpl implements UserService{
         // 설정 정보가 딱 맞아떨어져야지 변환 가능
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         UserEntity userEntity = mapper.map(userDto, UserEntity.class);
-        userEntity.setEncryptedPwd("encrypted_password");
+        //userEntity.setEncryptedPwd("encrypted_password");
 
+        userEntity.setEncryptedPwd(passwordEncoder.encode(userDto.getPwd()));
         userRepository.save(userEntity);
 
         //DB에 저장하기 위해서는 UserEntity 가 필요
