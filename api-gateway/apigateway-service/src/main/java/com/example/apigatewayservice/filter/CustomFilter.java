@@ -14,13 +14,16 @@ import reactor.core.publisher.Mono;
 public class CustomFilter extends AbstractGatewayFilterFactory<CustomFilter.Config> {
 
     public CustomFilter(){
+
         super(Config.class);
     }
 
     @Override
     public GatewayFilter apply(Config config) {
+
         // Custom Pre Filter
         return (exchange, chain) -> {
+
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 

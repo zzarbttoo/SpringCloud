@@ -8,13 +8,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-@AllArgsConstructor // lombok 중 argument를 다 가진 생성자
-@NoArgsConstructor // lombok 중 argument가 없는 생성자
+//@AllArgsConstructor //모든 생성자
+//@NoArgsConstructor //default 생성자
 public class Greeting {
 
     @Value("${greeting.message}")
     private String message;
-
-
 
 }

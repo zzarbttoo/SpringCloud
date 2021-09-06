@@ -8,8 +8,7 @@ import org.springframework.context.annotation.Configuration;
 //@Configuration
 public class FilterConfig {
 
-    //yml 파일 대신 java로 설정
-    //@Bean
+    @Bean
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder){
         return builder.routes()
                 .route(r -> r.path("/first-service/**")
