@@ -6,4 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 //Entity 정보 입력, 기본키 classType 입력
 public interface UserRepository extends CrudRepository<UserEntity, Long> {
 
+    UserEntity findByUserId(String userId);
+
+
 }

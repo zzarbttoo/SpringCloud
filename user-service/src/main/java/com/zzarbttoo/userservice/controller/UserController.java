@@ -2,6 +2,7 @@ package com.zzarbttoo.userservice.controller;
 
 import com.netflix.discovery.converters.Auto;
 import com.zzarbttoo.userservice.dto.UserDto;
+import com.zzarbttoo.userservice.jpa.UserEntity;
 import com.zzarbttoo.userservice.service.UserService;
 import com.zzarbttoo.userservice.vo.Greeting;
 import com.zzarbttoo.userservice.vo.RequestUser;
@@ -15,8 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
-@RequestMapping("/")
+@RequestMapping("/user-service/")
 public class UserController {
 
     private Environment env;
@@ -35,8 +39,8 @@ public class UserController {
 
     @GetMapping("/health_check")
     public String status(){
-
-        return "It's Working in User Service";
+        //포트번호를 출력할 수 있도록 변경
+        return String.format("It's Working in User Service on Port %s", env.getProperty("local.server.port"));
     }
 
     @GetMapping("/welcome")
@@ -59,5 +63,32 @@ public class UserController {
         //created = 201로 반환한다
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<ResponseUser>> getUsers(){
+
+        Iterable<UserEntity> userList = userService.getUserByAll();
+
+        List<ResponseUser> result = new ArrayList<>();
+
+        userList.forEach(v -> {
+            result.add(new ModelMapper().map(v, ResponseUser.class));
+
+        });
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<ResponseUser> getUser(@PathVariable("userId") String userId){
+
+        UserDto userDto= userService.getUserByUserId(userId);
+
+        ResponseUser returnValue = new ModelMapper().map(userDto, ResponseUser.class);
+
+        return ResponseEntity.status(HttpStatus.OK).body(returnValue);
+    }
+
+
 
 }

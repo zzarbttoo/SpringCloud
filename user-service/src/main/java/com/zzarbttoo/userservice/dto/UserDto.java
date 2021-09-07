@@ -1,8 +1,10 @@
 package com.zzarbttoo.userservice.dto;
 
+import com.zzarbttoo.userservice.vo.ResponseOrder;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class UserDto {
@@ -15,5 +17,6 @@ public class UserDto {
 
     private String encryptedPwd;
 
+    private List<ResponseOrder> orders;
 
 }
