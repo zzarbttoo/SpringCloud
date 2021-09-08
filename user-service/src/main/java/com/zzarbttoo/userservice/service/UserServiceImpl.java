@@ -9,6 +9,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,23 @@ public class UserServiceImpl implements UserService{
 
     UserRepository userRepository;
     BCryptPasswordEncoder passwordEncoder;
+
+    @Override
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+
+        //email로 찾는다
+        UserEntity userEntity = userRepository.findByEmail(userName);
+
+        //해당하는 사용자가 없다
+        if (userEntity == null){
+            throw new UsernameNotFoundException(userName); //spirng security에서 제공
+        }
+
+        //맨 마지막에는 권한을 넣어주면 된다
+        return new User(userEntity.getEmail(), userEntity.getEncryptedPwd(),
+                true, true, true, true,
+                new ArrayList<>()); //검색-> password -> 반환
+    }
 
     //인자들도 Bean 등록이 되어야 메모리에 적재를 할 수 있음
     //userRepository는 Bean 등록이 되어있는데, BCryptPasswordEncoder은 등록이 되어있지 않음
@@ -75,5 +94,19 @@ public class UserServiceImpl implements UserService{
     @Override
     public Iterable<UserEntity> getUserByAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public UserDto getUserDetailsByEmail(String email) {
+        UserEntity userEntity = userRepository.findByEmail(email);
+
+        if (userEntity == null) {
+            throw new UsernameNotFoundException(email);
+        }
+
+        UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
+
+
+        return userDto;
     }
 }

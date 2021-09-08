@@ -42,15 +42,43 @@ spring:
             - Path=/catalog-service/**
           filters:
             - CustomFilter
+        # - id: user-service
+        #   uri: lb://USER-SERVICE
+        #   predicates:
+        #     - Path=/user-service/**
+        #   filters:
+        #     - CustomFilter
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/login
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment} #/user-service/~~~ 형태로 들어오면 /~~~만 보내주겠다
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/users
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
+            - Method=GET
           filters:
-            - CustomFilter
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter #GET으로 요청할 때는 권한 필요
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order-service/**
           filters:
-        
+
+#user-service에 있는 값과 같아야한다
+token:
+  secret: user_token

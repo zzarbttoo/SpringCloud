@@ -29,3 +29,12 @@ greeting:
   message: Welcome to the Simple E-commerce
 
 
+logging:
+  level:
+    com.zzarbttoo.userservice: DEBUG
+
+
+#token 관련 작업
+token:
+  expiration_time: 86400000 #하루
+  secret: user_token #필요한 임의의 값
