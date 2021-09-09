@@ -78,7 +78,24 @@ spring:
           predicates:
             - Path=/order-service/**
           filters:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/** #actuator에 대해 호출할 때 처리를 해줌
+            - Method=GET, POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment} #/user-service/~~~ 형태로 들어오면 /~~~만 보내주겠다
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httptrace
+#httptrace를 사용하기 위해 application 파일에 bean 등록
+
+
 
 #user-service에 있는 값과 같아야한다
-token:
-  secret: user_token
+#token:
+#  secret: user_token

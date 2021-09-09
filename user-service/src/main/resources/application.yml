@@ -33,8 +33,17 @@ logging:
   level:
     com.zzarbttoo.userservice: DEBUG
 
+        # refresh : microservice에 있는 configuration 정보를 가져오겠다는 뜻
+
+
+
 #
 ##token 관련 작업
 #token:
 #  expiration_time: 86400000 #하루
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans
 #  secret: user_token #필요한 임의의 값

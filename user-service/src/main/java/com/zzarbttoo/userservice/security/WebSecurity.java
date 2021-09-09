@@ -32,6 +32,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 
         //인증이 된 상태에서만 permit
+        http.authorizeRequests().antMatchers("/actuator/**").permitAll(); //actuator일 경우에는 권한이 없어도 모두 통과되도록 함
         http.authorizeRequests().antMatchers("/**")
                 .hasIpAddress("192.168.0.20") //특정 ip에 대해서만 permit
                 .and()
