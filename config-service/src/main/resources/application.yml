@@ -8,6 +8,9 @@ spring:
     config:
       server:
         git:
-          uri: file:\\\C:\Users\qodbw\Documents\SpringCloudConfig
+          #uri: file:\\\C:\Users\qodbw\Documents\SpringCloudConfig
+          uri: https://github.com/zzarbttoo/SpringCloudConfig.git
+          #username: [your username] private 의 경우 username, password 명시
+          #password: [your password]
 
 #파일 프로토콜을 이용해 불러오고자 하는 파일의 경로를 지정한다

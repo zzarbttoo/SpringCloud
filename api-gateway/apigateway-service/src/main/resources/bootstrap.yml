@@ -3,3 +3,5 @@ spring:
     config:
       uri: http://127.0.0.20:8888 #config server
       name: ecommerce #file 이름
+  profiles:
+    active:   prod
