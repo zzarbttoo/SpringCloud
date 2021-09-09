@@ -4,9 +4,13 @@ server:
 spring:
   application:
     name: config-server
+  profiles:
+    active: native
   cloud:
     config:
       server:
+        native:
+          search-locations: file:\\\C:\Users\qodbw\Documents\SpringCloudConfig
         git:
           #uri: file:\\\C:\Users\qodbw\Documents\SpringCloudConfig
           uri: https://github.com/zzarbttoo/SpringCloudConfig.git
