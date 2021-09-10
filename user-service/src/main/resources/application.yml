@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: user-service
+  rabbitmq:
+    host: localhost #연결할 host
+    port: 5672 #직접 url로 들어갈 때는 15672이나 config server에서는 다음 포트번호로 접속한다
+    user: guest
+    password: guest
   h2:
     console:
       enabled: true
@@ -36,7 +41,6 @@ logging:
         # refresh : microservice에 있는 configuration 정보를 가져오겠다는 뜻
 
 
-
 #
 ##token 관련 작업
 #token:
@@ -45,5 +49,5 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans
+        include: refresh, health, beans, busrefresh
 #  secret: user_token #필요한 임의의 값

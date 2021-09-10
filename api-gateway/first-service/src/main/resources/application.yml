@@ -5,6 +5,11 @@ server:
 spring:
   application:
     name : my-first-service
+  rabbitmq:
+    host: localhost #연결할 host
+    port: 5672 #직접 url로 들어갈 때는 15672이나 config server에서는 다음 포트번호로 접속한다
+    user: guest
+    password: guest
 eureka:
   client:
     fetch-registry: true
@@ -13,5 +18,12 @@ eureka:
       defaultZone: http://localhost:8761/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}} #random port 때문에 instance 로 구분
+#
+#token:
+#  secret: user_token
 
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, busrefresh

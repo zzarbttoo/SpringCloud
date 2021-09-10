@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: config-server
+  rabbitmq:
+    host: localhost #연결할 host, guest 계정으로는 localhost만 진입할 수 있다
+    port : 5672 #직접 url로 들어갈 때는 15672이나 config server에서는 다음 포트번호로 접속한다
+    user: guest
+    password : guest
   profiles:
     active: native
   cloud:
@@ -17,4 +22,10 @@ spring:
           #username: [your username] private 의 경우 username, password 명시
           #password: [your password]
 
-#파일 프로토콜을 이용해 불러오고자 하는 파일의 경로를 지정한다
+management:
+  endpoints:
+    web:
+      exposure:
+        include : health, busrefresh #busrefresh를 추가
+        # 변경사항이 있을 경우 busrefresh로 요청을 하면 rabbitMQ에 등록되어있는 모든 서비스로 전송(push)이 된다
+        # config server도 client 역할을 하는 것
