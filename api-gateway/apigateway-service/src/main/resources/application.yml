@@ -102,5 +102,5 @@ management:
 
 
 #user-service에 있는 값과 같아야한다
-token:
-  secret: user_token
+#token:
+  #secret: user_token

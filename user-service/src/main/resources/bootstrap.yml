@@ -2,6 +2,6 @@ spring:
   cloud:
     config:
       uri: http://127.0.0.20:8888 #config server
-      name: config-server #configuration server의 application name 을 쓴다 -> application.yml을 불러온다
+      name: user-service #configuration server의 application name 을 쓴다 -> application.yml을 불러온다
 #  profiles:
 #    active: dev

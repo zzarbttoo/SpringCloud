@@ -1,13 +1,11 @@
 package com.zzarbttoo.userservice.service;
 
-import com.netflix.discovery.converters.Auto;
 import com.zzarbttoo.userservice.dto.UserDto;
 import com.zzarbttoo.userservice.jpa.UserEntity;
 import com.zzarbttoo.userservice.jpa.UserRepository;
 import com.zzarbttoo.userservice.vo.ResponseOrder;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
